@@ -148,7 +148,7 @@ class Game {
         }
         
         world = newWorld
-        //actions.append(generateNewCard())
+        actions.append(generateNewCard())
         completion(actions)
     }
     
