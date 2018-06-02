@@ -15,10 +15,31 @@ protocol GameViewDelegate {
 class GameView: UIView {
     
     var delegate: GameViewDelegate? = nil
-    var size: Int = 0
+    
+    private var cards = [[CardView]]()
+    var size: Int = 0 {
+        didSet {
+            cards = []
+            for row in 0..<size {
+                cards.append([])
+                for col in 0..<size {
+                    let newCardView = CardView(frame: getRectOf(row: row, col: col), value: 0)
+                    cards[row].append(newCardView)
+                    self.addSubview(cards[row][col])
+                }
+            }
+        }
+    }
+    
     private let margin: CGFloat = 5.0
+    private var drawBound: CGRect {
+        var bound = self.bounds
+        bound.origin.x += margin; bound.origin.y += margin
+        bound.size.width -= margin * 2; bound.size.height -= margin * 2
+        return bound
+    }
     private var boundSize: CGFloat {
-        let viewWidth = self.bounds.size.width
+        let viewWidth = drawBound.size.width
         return viewWidth / CGFloat(size)
     }
     private var cardSize: CGSize {
@@ -26,19 +47,19 @@ class GameView: UIView {
     }
     private var startLocation = CGPoint()
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        
+    private func getRectOf(row: Int, col: Int) -> CGRect {
+        var location = CGPoint(x: CGFloat(col) * boundSize, y: CGFloat(row) * boundSize)
+        location.x += margin + drawBound.origin.x
+        location.y += margin + drawBound.origin.y
+        return CGRect(origin: location, size: cardSize)
     }
     
     override func draw(_ rect: CGRect) {
         UIColor(red:0.80, green:0.75, blue:0.71, alpha:1.00).setFill()
         for row in 0..<size {
             for col in 0..<size {
-                var location = CGPoint(x: CGFloat(col) * boundSize, y: CGFloat(row) * boundSize)
-                location.x += margin; location.y += margin
                 let rect = UIBezierPath(
-                    roundedRect: CGRect(origin: location, size: cardSize),
+                    roundedRect: getRectOf(row: row, col: col),
                     cornerRadius: 10.0
                 )
                 rect.fill()
@@ -47,7 +68,44 @@ class GameView: UIView {
     }
     
     func performActions(_ actions: [Action]) {
+        actions.forEach {
+            switch $0 {
+            case .new(let position, let newValue):
+                newCard(at: position, withValue: newValue)
+            case .move(let from, let to):
+                moveCard(from: from, to: to)
+            case .upgrade(let from, let to, let newValue):
+                upgrade(from: from, to: to, newValue: newValue)
+            default:
+                break
+            }
+        }
+    }
+    
+    private func newCard(at position: Position, withValue newValue: Int) {
+        cards[position.row][position.col].flash(withValue: newValue)
+    }
+    
+    private func moveCard(from: Position, to: Position) {
+        UIViewPropertyAnimator.runningPropertyAnimator(
+            withDuration: 0.1,
+            delay: 0,
+            options: [],
+            animations: {
+                self.cards[from.row][from.col].frame.origin = self.getRectOf(row: to.row, col: to.col).origin
+                self.cards[to.row][to.col].frame.origin = self.getRectOf(row: from.row, col: from.col).origin
+            }
+        )
         
+        let tempCard = cards[from.row][from.col]
+        cards[from.row][from.col] = cards[to.row][to.col]
+        cards[to.row][to.col] = tempCard
+    }
+    
+    private func upgrade(from: Position, to: Position, newValue: Int) {
+        cards[to.row][to.col].updateValue(to: 0)
+        moveCard(from: from, to: to)
+        newCard(at: to, withValue: newValue)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

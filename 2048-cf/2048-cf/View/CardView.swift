@@ -12,10 +12,25 @@ class CardView: UIView {
     
     private let label = UILabel()
 
-    func set(value: Int) {
+    init(frame: CGRect, value: Int) {
+        super.init(frame: frame)
+        self.frame = frame
+        self.backgroundColor = .orange
+        self.layer.masksToBounds = true
+        self.layer.cornerRadius = 10.0
+        set(value: value)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    private func set(value: Int) {
         // TODO: - modfiy by skin
         updateValue(to: value)
         label.textColor = .white
+        label.textAlignment = .center
+        label.font = UIFont(name: label.font.fontName, size: 36.0)
         self.addSubview(label)
         
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -25,19 +40,39 @@ class CardView: UIView {
             label.leftAnchor.constraint(equalTo: self.leftAnchor),
             label.rightAnchor.constraint(equalTo: self.rightAnchor)
         ])
-        
-        self.backgroundColor = .orange
-        self.layer.masksToBounds = true
-        self.layer.cornerRadius = 10.0
     }
     
     func updateValue(to newValue: Int) {
-        label.text = newValue == 0 ? "" : String(newValue)
+        if newValue == 0 {
+            self.isHidden = true
+        } else {
+            self.isHidden = false
+            label.text = String(newValue)
+        }
     }
     
-    func flash() {
-        // TODO: - flash animation
-        print("kira~ kira~")
+    func flash(withValue value: Int = 0) {
+        UIViewPropertyAnimator.runningPropertyAnimator(
+            withDuration: 0.0,
+            delay: 0.1,
+            options: [],
+            animations: {
+                self.transform = CGAffineTransform.identity.scaledBy(x: 0.5, y: 0.5)
+            },
+            completion: { position in
+                self.updateValue(to: value)
+                UIViewPropertyAnimator.runningPropertyAnimator(
+                    withDuration: 0.2,
+                    delay: 0.0,
+                    options: [.repeat],
+                    animations: {
+                        self.transform = CGAffineTransform.identity.scaledBy(x: 1.1, y: 1.1)
+                    }, completion: { position in
+                        self.transform = .identity
+                    }
+                )
+            }
+        )
     }
-    
+
 }
