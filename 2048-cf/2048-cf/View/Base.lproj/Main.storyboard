@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="wgk-2d-ZKa">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,15 +16,38 @@
             <objects>
                 <viewController id="wgk-2d-ZKa" customClass="GameViewController" customModule="_048_cf" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PrY-cT-SCx">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Vf-ua-tCT" customClass="GameView" customModule="_048_cf" customModuleProvider="target">
+                                <rect key="frame" x="16" y="150" width="288" height="288"/>
+                                <color key="backgroundColor" red="0.72941176470588232" green="0.67450980392156867" blue="0.62745098039215685" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="1Vf-ua-tCT" secondAttribute="height" id="IuD-FL-y7b"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.98039215686274506" green="0.97254901960784312" blue="0.93725490196078431" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="1Vf-ua-tCT" firstAttribute="centerY" secondItem="mQc-eT-6ZL" secondAttribute="centerY" id="ROv-hF-4UD"/>
+                            <constraint firstItem="1Vf-ua-tCT" firstAttribute="leading" secondItem="mQc-eT-6ZL" secondAttribute="leading" constant="16" id="n9z-sj-0dc"/>
+                            <constraint firstItem="mQc-eT-6ZL" firstAttribute="trailing" secondItem="1Vf-ua-tCT" secondAttribute="trailing" constant="16" id="szJ-qD-YF5"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="mQc-eT-6ZL"/>
                     </view>
+                    <connections>
+                        <outlet property="gameView" destination="1Vf-ua-tCT" id="gWX-Ca-6IJ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aZl-fd-Obc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="79" y="71"/>
+            <point key="canvasLocation" x="77.599999999999994" y="70.614692653673174"/>
         </scene>
     </scenes>
 </document>

@@ -19,6 +19,7 @@
 		4F80554320BFF19600239E23 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F80554220BFF19600239E23 /* GameView.swift */; };
 		4F80554520BFF82400239E23 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F80554420BFF82400239E23 /* Game.swift */; };
 		4F80554720C003AC00239E23 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F80554620C003AC00239E23 /* Action.swift */; };
+		4F80554920C167F400239E23 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F80554820C167F400239E23 /* CardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		4F80554220BFF19600239E23 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		4F80554420BFF82400239E23 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		4F80554620C003AC00239E23 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
+		4F80554820C167F400239E23 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +143,7 @@
 				4F80551320BFEA3000239E23 /* LaunchScreen.storyboard */,
 				4F80550B20BFEA2F00239E23 /* Main.storyboard */,
 				4F80554220BFF19600239E23 /* GameView.swift */,
+				4F80554820C167F400239E23 /* CardView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 				4F80554120BFEB9300239E23 /* Card.swift in Sources */,
 				4F80554720C003AC00239E23 /* Action.swift in Sources */,
 				4F80550820BFEA2F00239E23 /* AppDelegate.swift in Sources */,
+				4F80554920C167F400239E23 /* CardView.swift in Sources */,
 				4F80554320BFF19600239E23 /* GameView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -485,6 +489,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ANB6MDJTLF;
 				INFOPLIST_FILE = "2048-cf/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -492,7 +497,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.future-code-institute.-048-cf";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -503,6 +508,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ANB6MDJTLF;
 				INFOPLIST_FILE = "2048-cf/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -510,7 +516,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.future-code-institute.-048-cf";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

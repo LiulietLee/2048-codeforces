@@ -27,11 +27,6 @@ class Game {
         case ended = 0
     }
     
-    struct Size {
-        var width: Int
-        var height: Int
-    }
-    
     private var size: Int
     var world = [[Card]]()
     var status = Status.ended
@@ -49,6 +44,7 @@ class Game {
                 }
             }
         }
+        
         let index = Int(arc4random_uniform(UInt32(pool.count)))
         let value = Int((arc4random_uniform(2) + 1) * 2)
         world[pool[index].row][pool[index].col] = Card(value: value)
@@ -70,9 +66,6 @@ class Game {
     func start(completion: (_ actions: [Action]) -> Void) {
         world = getCleanWorld()
         var actions = [Action]()
-        actions.append(generateNewCard())
-        actions.append(generateNewCard())
-        actions.append(generateNewCard())
         actions.append(generateNewCard())
         actions.append(generateNewCard())
         status = .running
@@ -147,8 +140,11 @@ class Game {
             }
         }
         
+        // TODO: - win check
         world = newWorld
-        actions.append(generateNewCard())
+        if actions.count > 0 {
+            actions.append(generateNewCard())
+        }
         completion(actions)
     }
     
