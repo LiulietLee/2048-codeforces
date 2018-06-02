@@ -80,6 +80,7 @@ class Game {
         let tos: [Direction: [Int]] = [.left: [0, -1], .right: [0, 1], .up: [-1, 0], .down: [1, 0]]
         let to = tos[direction]!
         var actions = [Action]()
+        var win = false
         var newWorld = getCleanWorld()
         var mergeable = Array(repeating: Array(repeating: true, count: size), count: size)
         
@@ -137,15 +138,43 @@ class Game {
                     }
                 }
                 newWorld[tx][ty] = world[row][col]
+                if newWorld[tx][ty].getValue() == 2048 {
+                    win = true
+                }
             }
         }
         
-        // TODO: - win check
         world = newWorld
         if actions.count > 0 {
             actions.append(generateNewCard())
         }
+        
+        if win {
+            actions.append(.success)
+        } else if checkFailure() {
+            actions.append(.failure)
+        }
         completion(actions)
+    }
+    
+    private func checkFailure() -> Bool {
+        let tos = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+        for row in 0..<size {
+            for col in 0..<size {
+                if world[row][col].getValue() == 0 {
+                    return false
+                } else {
+                    for to in tos {
+                        let tx = row + to[0], ty = col + to[1]
+                        if inBound(row: tx, col: ty),
+                            world[row][col].getValue() == world[tx][ty].getValue() {
+                            return false
+                        }
+                    }
+                }
+            }
+        }
+        return true
     }
     
     private func inBound(row: Int, col: Int) -> Bool {

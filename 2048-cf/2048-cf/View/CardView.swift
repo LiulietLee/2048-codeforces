@@ -31,6 +31,7 @@ class CardView: UIView {
         label.textColor = .white
         label.textAlignment = .center
         label.font = UIFont(name: label.font.fontName, size: 36.0)
+        label.minimumScaleFactor = 0.5
         self.addSubview(label)
         
         label.translatesAutoresizingMaskIntoConstraints = false

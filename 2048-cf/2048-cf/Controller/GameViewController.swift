@@ -45,6 +45,14 @@ class GameViewController: UIViewController, GameViewDelegate {
         }
         game.move(to: direction) { (actions) in
             gameView.performActions(actions)
+            if let last = actions.last {
+                switch last {
+                case .failure, .success:
+                    // TODO: - animation of success and failure
+                    game.status = .ended
+                default: break
+                }
+            }
         }
     }
 
