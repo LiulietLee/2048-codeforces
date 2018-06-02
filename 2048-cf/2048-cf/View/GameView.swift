@@ -17,19 +17,8 @@ class GameView: UIView {
     var delegate: GameViewDelegate? = nil
     
     private var cards = [[CardView]]()
-    var size: Int = 0 {
-        didSet {
-            cards = []
-            for row in 0..<size {
-                cards.append([])
-                for col in 0..<size {
-                    let newCardView = CardView(frame: getRectOf(row: row, col: col), value: 0)
-                    cards[row].append(newCardView)
-                    self.addSubview(cards[row][col])
-                }
-            }
-        }
-    }
+    var size: Int = 0
+    var skin: AbstractSkin = ClassicSkin()
     
     private let margin: CGFloat = 5.0
     private var drawBound: CGRect {
@@ -52,6 +41,22 @@ class GameView: UIView {
         location.x += margin + drawBound.origin.x
         location.y += margin + drawBound.origin.y
         return CGRect(origin: location, size: cardSize)
+    }
+    
+    override func layoutSubviews() {
+        cards = []
+        for row in 0..<size {
+            cards.append([])
+            for col in 0..<size {
+                let newCardView = CardView(
+                    frame: getRectOf(row: row, col: col),
+                    value: 0,
+                    skin: skin
+                )
+                cards[row].append(newCardView)
+                self.addSubview(cards[row][col])
+            }
+        }
     }
     
     override func draw(_ rect: CGRect) {

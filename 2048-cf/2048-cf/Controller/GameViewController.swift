@@ -22,8 +22,10 @@ class GameViewController: UIViewController, GameViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         gameView.delegate = self
-        game.start { (startCards) in
-            gameView.performActions(startCards)
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+            self.game.start { (startCards) in
+                self.gameView.performActions(startCards)
+            }
         }
     }
     

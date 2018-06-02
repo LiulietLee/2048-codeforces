@@ -10,11 +10,26 @@ import UIKit
 
 class CardView: UIView {
     
+    private var skin = AbstractSkin()
     private let label = UILabel()
+    private var value: Int = 0 {
+        didSet {
+            if value == 0 {
+                self.isHidden = true
+            } else {
+                self.isHidden = false
+                let style = skin.sheet[value]!
+                self.backgroundColor = style.backgroundColor
+                label.text = style.content
+                label.textColor = style.labelColor
+            }
+        }
+    }
 
-    init(frame: CGRect, value: Int) {
+    init(frame: CGRect, value: Int, skin: AbstractSkin) {
         super.init(frame: frame)
         self.frame = frame
+        self.skin = skin
         self.backgroundColor = .orange
         self.layer.masksToBounds = true
         self.layer.cornerRadius = 10.0
@@ -26,11 +41,11 @@ class CardView: UIView {
     }
     
     private func set(value: Int) {
-        // TODO: - modfiy by skin
         updateValue(to: value)
         label.textColor = .white
         label.textAlignment = .center
-        label.font = UIFont(name: label.font.fontName, size: 36.0)
+        label.font = UIFont.boldSystemFont(ofSize: 36.0)
+        label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.5
         self.addSubview(label)
         
@@ -44,26 +59,21 @@ class CardView: UIView {
     }
     
     func updateValue(to newValue: Int) {
-        if newValue == 0 {
-            self.isHidden = true
-        } else {
-            self.isHidden = false
-            label.text = String(newValue)
-        }
+        value = newValue
     }
     
     func flash(withValue value: Int = 0) {
         UIViewPropertyAnimator.runningPropertyAnimator(
             withDuration: 0.0,
-            delay: 0.1,
+            delay: 0.05,
             options: [],
             animations: {
-                self.transform = CGAffineTransform.identity.scaledBy(x: 0.5, y: 0.5)
+                self.transform = CGAffineTransform.identity.scaledBy(x: 0.8, y: 0.8)
             },
             completion: { position in
                 self.updateValue(to: value)
                 UIViewPropertyAnimator.runningPropertyAnimator(
-                    withDuration: 0.2,
+                    withDuration: 0.1,
                     delay: 0.0,
                     options: [.repeat],
                     animations: {
