@@ -158,12 +158,12 @@
 		4F80553820BFEA4B00239E23 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				4F23517920C3F43C00BEB69B /* Skin */,
 				4F80551120BFEA3000239E23 /* Assets.xcassets */,
 				4F80551320BFEA3000239E23 /* LaunchScreen.storyboard */,
 				4F80550B20BFEA2F00239E23 /* Main.storyboard */,
 				4F80554220BFF19600239E23 /* GameView.swift */,
 				4F80554820C167F400239E23 /* CardView.swift */,
+				4F23517920C3F43C00BEB69B /* Skin */,
 			);
 			path = View;
 			sourceTree = "<group>";

@@ -17,6 +17,7 @@ class GameView: UIView {
     var delegate: GameViewDelegate? = nil
     
     private var cards = [[CardView]]()
+    private var canMove = true
     var size: Int = 0
     var skin: AbstractSkin = ClassicSkin()
     
@@ -85,6 +86,10 @@ class GameView: UIView {
                 break
             }
         }
+        canMove = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250)) {
+            self.canMove = true
+        }
     }
     
     private func newCard(at position: Position, withValue newValue: Int) {
@@ -98,7 +103,7 @@ class GameView: UIView {
             options: [],
             animations: {
                 self.cards[from.row][from.col].frame.origin = self.getRectOf(row: to.row, col: to.col).origin
-                self.cards[to.row][to.col].frame.origin = self.getRectOf(row: from.row, col: from.col).origin
+                self.cards[to.row][to.col].frame = self.getRectOf(row: from.row, col: from.col)
             }
         )
         
@@ -120,6 +125,7 @@ class GameView: UIView {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if !canMove { return }
         if let touch = touches.first {
             let endLocation = touch.preciseLocation(in: self)
             let offset = endLocation - startLocation
