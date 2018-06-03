@@ -30,6 +30,7 @@ class Game {
     private var size: Int
     var world = [[Card]]()
     var status = Status.ended
+    var goal = 2048
     
     init(size: Int) {
         self.size = size
@@ -138,7 +139,7 @@ class Game {
                     }
                 }
                 newWorld[tx][ty] = world[row][col]
-                if newWorld[tx][ty].getValue() == 2048 {
+                if newWorld[tx][ty].getValue() == goal {
                     win = true
                 }
             }

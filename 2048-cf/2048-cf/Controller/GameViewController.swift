@@ -16,6 +16,7 @@ class GameViewController: UIViewController, GameViewDelegate {
     @IBOutlet weak var gameView: GameView! {
         didSet {
             gameView.size = gameSize
+            gameView.skin = CodeforcesSkin()
         }
     }
     
@@ -23,6 +24,7 @@ class GameViewController: UIViewController, GameViewDelegate {
         super.viewDidLoad()
         gameView.delegate = self
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(500)) {
+            self.game.goal = 1024
             self.game.start { (startCards) in
                 self.gameView.performActions(startCards)
             }

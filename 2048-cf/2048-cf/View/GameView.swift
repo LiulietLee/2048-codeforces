@@ -93,7 +93,7 @@ class GameView: UIView {
     
     private func moveCard(from: Position, to: Position) {
         UIViewPropertyAnimator.runningPropertyAnimator(
-            withDuration: 0.1,
+            withDuration: 0.04 * Double((max(abs(from.row - to.row), abs(from.col - to.col)))),
             delay: 0,
             options: [],
             animations: {

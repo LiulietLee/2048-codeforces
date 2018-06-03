@@ -46,15 +46,15 @@ class CardView: UIView {
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 36.0)
         label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.5
+        label.minimumScaleFactor = 0.2
         self.addSubview(label)
         
         label.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             label.topAnchor.constraint(equalTo: self.topAnchor),
             label.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            label.leftAnchor.constraint(equalTo: self.leftAnchor),
-            label.rightAnchor.constraint(equalTo: self.rightAnchor)
+            label.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 5.0),
+            label.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -5.0)
         ])
     }
     

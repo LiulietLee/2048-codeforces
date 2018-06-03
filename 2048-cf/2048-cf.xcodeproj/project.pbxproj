@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F23517820C3EEB800BEB69B /* CodeforcesSkin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F23517720C3EEB800BEB69B /* CodeforcesSkin.swift */; };
 		4F80550820BFEA2F00239E23 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F80550720BFEA2F00239E23 /* AppDelegate.swift */; };
 		4F80550D20BFEA2F00239E23 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F80550B20BFEA2F00239E23 /* Main.storyboard */; };
 		4F80551020BFEA2F00239E23 /* _048_cf.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F80550E20BFEA2F00239E23 /* _048_cf.xcdatamodeld */; };
@@ -43,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4F23517720C3EEB800BEB69B /* CodeforcesSkin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeforcesSkin.swift; sourceTree = "<group>"; };
 		4F80550420BFEA2F00239E23 /* 2048-cf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "2048-cf.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F80550720BFEA2F00239E23 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4F80550C20BFEA2F00239E23 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 				4F80554220BFF19600239E23 /* GameView.swift */,
 				4F80554820C167F400239E23 /* CardView.swift */,
 				4F80554C20C2CCD400239E23 /* AbstractSkin.swift */,
+				4F23517720C3EEB800BEB69B /* CodeforcesSkin.swift */,
 				4F80554E20C2D39E00239E23 /* ClassicSkin.swift */,
 				4F80555020C2D40800239E23 /* Style.swift */,
 			);
@@ -324,6 +327,7 @@
 				4F80554720C003AC00239E23 /* Action.swift in Sources */,
 				4F80550820BFEA2F00239E23 /* AppDelegate.swift in Sources */,
 				4F80554920C167F400239E23 /* CardView.swift in Sources */,
+				4F23517820C3EEB800BEB69B /* CodeforcesSkin.swift in Sources */,
 				4F80554320BFF19600239E23 /* GameView.swift in Sources */,
 				4F80555120C2D40800239E23 /* Style.swift in Sources */,
 			);
