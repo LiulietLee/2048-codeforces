@@ -18,6 +18,7 @@ class GameView: UIView {
     
     private var cards = [[CardView]]()
     private var canMove = true
+    private var touchingDetectable = true
     var size: Int = 0
     var skin: AbstractSkin = ClassicSkin()
     
@@ -124,13 +125,26 @@ class GameView: UIView {
         }
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if !canMove { return }
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if !canMove || !touchingDetectable {
+            return
+        }
         if let touch = touches.first {
             let endLocation = touch.preciseLocation(in: self)
-            let offset = endLocation - startLocation
-            delegate?.slideEnded(offset: offset)
+            if distance(between: endLocation, and: startLocation) > 50 {
+                touchingDetectable = false
+                let offset = endLocation - startLocation
+                delegate?.slideEnded(offset: offset)
+            }
         }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        touchingDetectable = true
+    }
+    
+    private func distance(between pointA: CGPoint, and PointB: CGPoint) -> Double {
+        return sqrt(Double((pointA.x - PointB.x) * (pointA.x - PointB.x) + (pointA.y - PointB.y) * (pointA.y - PointB.y)))
     }
     
 }
