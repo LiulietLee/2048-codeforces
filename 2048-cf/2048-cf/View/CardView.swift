@@ -41,7 +41,6 @@ class CardView: UIView {
     }
     
     private func set(value: Int) {
-        updateValue(to: value)
         label.textColor = .white
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 36.0)
@@ -56,32 +55,37 @@ class CardView: UIView {
             label.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 5.0),
             label.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -5.0)
         ])
+        updateValue(to: value)
+
     }
     
     func updateValue(to newValue: Int) {
         value = newValue
     }
     
-    func flash(withValue value: Int = 0) {
+    func createAnimation() {
+        transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
         UIViewPropertyAnimator.runningPropertyAnimator(
-            withDuration: 0.0,
-            delay: 0.05,
+            withDuration: 0.1,
+            delay: 0.0,
             options: [],
             animations: {
-                self.transform = CGAffineTransform.identity.scaledBy(x: 0.8, y: 0.8)
-            },
-            completion: { position in
-                self.updateValue(to: value)
-                UIViewPropertyAnimator.runningPropertyAnimator(
-                    withDuration: 0.1,
-                    delay: 0.0,
-                    options: [.repeat],
-                    animations: {
-                        self.transform = CGAffineTransform.identity.scaledBy(x: 1.1, y: 1.1)
-                    }, completion: { position in
-                        self.transform = .identity
-                    }
-                )
+                self.transform = .identity
+            }
+        )
+    }
+    
+    func flash(withValue value: Int = 0) {
+        transform = CGAffineTransform.identity.scaledBy(x: 0.8, y: 0.8)
+        updateValue(to: value)
+        UIViewPropertyAnimator.runningPropertyAnimator(
+            withDuration: 0.08,
+            delay: 0.0,
+            options: [.repeat],
+            animations: {
+                self.transform = CGAffineTransform.identity.scaledBy(x: 1.1, y: 1.1)
+            }, completion: { position in
+                self.transform = .identity
             }
         )
     }

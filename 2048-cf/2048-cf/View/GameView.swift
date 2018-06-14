@@ -16,8 +16,6 @@ class GameView: UIView {
     
     var delegate: GameViewDelegate? = nil
     
-    private var cards = [[CardView]]()
-    private var canMove = true
     private var touchingDetectable = true
     var size: Int = 0
     var skin: AbstractSkin = ClassicSkin()
@@ -43,22 +41,6 @@ class GameView: UIView {
         location.x += margin + drawBound.origin.x
         location.y += margin + drawBound.origin.y
         return CGRect(origin: location, size: cardSize)
-    }
-    
-    override func layoutSubviews() {
-        cards = []
-        for row in 0..<size {
-            cards.append([])
-            for col in 0..<size {
-                let newCardView = CardView(
-                    frame: getRectOf(row: row, col: col),
-                    value: 0,
-                    skin: skin
-                )
-                cards[row].append(newCardView)
-                self.addSubview(cards[row][col])
-            }
-        }
     }
     
     override func draw(_ rect: CGRect) {
@@ -87,36 +69,55 @@ class GameView: UIView {
                 break
             }
         }
-        canMove = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250)) {
-            self.canMove = true
-        }
+    }
+    
+    private func getCardView(at position: Position) -> CardView? {
+        return viewWithTag(tag(at: position)) as? CardView
+    }
+    
+    private func tag(at position: Position) -> Int {
+        return (1 + position.row) * 100 + position.col
     }
     
     private func newCard(at position: Position, withValue newValue: Int) {
-        cards[position.row][position.col].flash(withValue: newValue)
+        if let cardView = getCardView(at: position) {
+            cardView.flash(withValue: newValue)
+        } else {
+            let newCardView = CardView(
+                frame: getRectOf(row: position.row, col: position.col),
+                value: newValue,
+                skin: skin
+            )
+            newCardView.tag = tag(at: position)
+            addSubview(newCardView)
+            newCardView.createAnimation()
+        }
     }
     
-    private func moveCard(from: Position, to: Position) {
+    private func moveCard(from: Position, to: Position, completion: (() -> Void)? = nil) {
         UIViewPropertyAnimator.runningPropertyAnimator(
-            withDuration: 0.04 * Double((max(abs(from.row - to.row), abs(from.col - to.col)))),
+            withDuration: 0.06 * Double((max(abs(from.row - to.row), abs(from.col - to.col)))),
             delay: 0,
             options: [],
             animations: {
-                self.cards[from.row][from.col].frame.origin = self.getRectOf(row: to.row, col: to.col).origin
-                self.cards[to.row][to.col].frame = self.getRectOf(row: from.row, col: from.col)
+                if let cardView = self.getCardView(at: from) {
+                    cardView.frame = self.getRectOf(row: to.row, col: to.col)
+                    cardView.tag = self.tag(at: to)
+                }
+            },
+            completion: { position in
+                completion?()
             }
         )
-        
-        let tempCard = cards[from.row][from.col]
-        cards[from.row][from.col] = cards[to.row][to.col]
-        cards[to.row][to.col] = tempCard
     }
     
     private func upgrade(from: Position, to: Position, newValue: Int) {
-        cards[to.row][to.col].updateValue(to: 0)
-        moveCard(from: from, to: to)
-        newCard(at: to, withValue: newValue)
+        moveCard(from: from, to: to, completion: {
+            if let cardView = self.getCardView(at: to) {
+                cardView.removeFromSuperview()
+            }
+            self.newCard(at: to, withValue: newValue)
+        })
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -126,7 +127,7 @@ class GameView: UIView {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if !canMove || !touchingDetectable {
+        if !touchingDetectable {
             return
         }
         if let touch = touches.first {
@@ -140,7 +141,15 @@ class GameView: UIView {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        touchingDetectable = true
+        if touchingDetectable {
+            if let touch = touches.first {
+                let endLocation = touch.preciseLocation(in: self)
+                let offset = endLocation - startLocation
+                delegate?.slideEnded(offset: offset)
+            }
+        } else {
+            touchingDetectable = true
+        }
     }
     
     private func distance(between pointA: CGPoint, and PointB: CGPoint) -> Double {

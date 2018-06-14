@@ -15,7 +15,7 @@ class GameViewController: UIViewController, GameViewDelegate {
     @IBOutlet weak var gameView: GameView! {
         didSet {
             gameView.size = gameSize
-            gameView.skin = CodeforcesSkin()
+            gameView.skin = ClassicSkin()
         }
     }
     private var maskView: UIView {
